@@ -1,6 +1,9 @@
 <template>
   <div>
-      我是菜单管理页面
+      菜单管理
+      <table>
+          
+      </table>
   </div>
 </template>
 
