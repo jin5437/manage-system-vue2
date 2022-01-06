@@ -118,12 +118,15 @@ export default {
       isDisabled: true,
       multipleSelectList: [],
       currentPage: 1,
-      perPageNum:5
+      perPageNum: 5,
     };
   },
   mounted() {
     this.tableDataList = JSON.parse(JSON.stringify(this.tableData));
-    this.tableDataList = this.tableData.slice((this.currentPage-1)*this.perPageNum,this.currentPage*this.perPageNum)
+    this.tableDataList = this.tableData.slice(
+      (this.currentPage - 1) * this.perPageNum,
+      this.currentPage * this.perPageNum
+    );
   },
   methods: {
     //   查询角色
@@ -154,8 +157,11 @@ export default {
       };
       this.tableDataList.push(newRole);
       this.tableData.push(newRole);
-      this.tableDataList = this.tableData.slice((this.currentPage-1)*this.perPageNum,this.currentPage*this.perPageNum)
-      this.newRoleName = ""
+      this.tableDataList = this.tableData.slice(
+        (this.currentPage - 1) * this.perPageNum,
+        this.currentPage * this.perPageNum
+      );
+      this.newRoleName = "";
     },
 
     // 批量删除，注意，两层foreach的位置不能调换
@@ -216,13 +222,19 @@ export default {
     // 分页
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
-      this.perPageNum = val
-      this.tableDataList = this.tableData.slice((this.currentPage-1)*this.perPageNum,this.currentPage*this.perPageNum)
+      this.perPageNum = val;
+      this.tableDataList = this.tableData.slice(
+        (this.currentPage - 1) * this.perPageNum,
+        this.currentPage * this.perPageNum
+      );
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
       this.currentPage = val;
-      this.tableDataList = this.tableData.slice((this.currentPage-1)*this.perPageNum,this.currentPage*this.perPageNum)
+      this.tableDataList = this.tableData.slice(
+        (this.currentPage - 1) * this.perPageNum,
+        this.currentPage * this.perPageNum
+      );
     },
   },
 };
