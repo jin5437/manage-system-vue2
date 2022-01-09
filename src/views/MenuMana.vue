@@ -17,7 +17,7 @@
             type="primary"
             class="btn-option"
             :disabled="data.row.type == 'four'"
-            @click="changeTitle(data.row.type)"
+            @click="changeTitle(data.row.type,data.row.permissionValue)"
           >
             <i class="el-icon-plus"></i>
           </el-button>
@@ -25,7 +25,13 @@
             type="primary"
             class="btn-option"
             :disabled="data.row.type == 'one'"
-            @click="updateMenu(data.row.id,data.row.menuName, data.row.permissionValue)"
+            @click="
+              updateMenu(
+                data.row.id,
+                data.row.menuName,
+                data.row.permissionValue
+              )
+            "
           >
             <i class="el-icon-edit"></i>
           </el-button>
@@ -83,9 +89,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="updateVisible = false">取 消</el-button>
-        <el-button type="primary" @click="updateSecondaryMenu"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="updateSecondaryMenu">确 定</el-button>
       </span>
     </el-dialog>
 
@@ -111,56 +115,56 @@ export default {
   name: "MenuMana",
   data() {
     return {
-      expandKeys:['1'],
+      expandKeys: ["1"],
       tableData: [
         {
           id: 1,
           menuName: "全部数据",
           permissionValue: "111",
           descValue: "222",
-          type:'one',  // type为one则编辑和删除按钮禁用
+          type: "one", // type为one则编辑和删除按钮禁用
           children: [
             {
               id: 11,
               menuName: "权限管理",
               permissionValue: "Acl",
               descValue: "",
-              type:"two",
+              type: "two",
               children: [
                 {
                   id: 111,
                   menuName: "用户管理",
                   permissionValue: "User",
                   descValue: "",
-                  type:'three',
+                  type: "three",
                   children: [
                     {
                       id: 1111,
                       menuName: "添加用户",
                       permissionValue: "btn.User.add",
                       descValue: "",
-                      type:"four"
+                      type: "four",
                     },
                     {
                       id: 1112,
                       menuName: "删除用户",
                       permissionValue: "btn.User.remove",
                       descValue: "",
-                      type:"four"
+                      type: "four",
                     },
                     {
                       id: 1113,
                       menuName: "修改用户",
                       permissionValue: "btn.User.update",
                       descValue: "",
-                      type:"four"
+                      type: "four",
                     },
                     {
                       id: 1114,
                       menuName: "分配角色",
                       permissionValue: "btn.User.assgin",
                       descValue: "",
-                      type:"four"
+                      type: "four",
                     },
                   ],
                 },
@@ -169,34 +173,35 @@ export default {
                   menuName: "角色管理",
                   permissionValue: "Role",
                   descValue: "",
+                  type: "three",
                   children: [
                     {
                       id: 1121,
                       menuName: "分配权限",
                       permissionValue: "btn.Role.assgin",
                       descValue: "RoleAuth",
-                      type:"four"
+                      type: "four",
                     },
                     {
                       id: 1122,
                       menuName: "添加角色",
                       permissionValue: "btn.Role.add",
                       descValue: "",
-                      type:"four"
+                      type: "four",
                     },
                     {
                       id: 1123,
                       menuName: "修改角色",
                       permissionValue: "btn.Role.update",
                       descValue: "",
-                      type:"four"
+                      type: "four",
                     },
                     {
                       id: 1124,
                       menuName: "删除角色",
                       permissionValue: "btn.Role.remove",
                       descValue: "",
-                      type:"four"
+                      type: "four",
                     },
                   ],
                 },
@@ -205,27 +210,28 @@ export default {
                   menuName: "菜单管理",
                   permissionValue: "Permission",
                   descValue: "",
+                  type: "three",
                   children: [
                     {
                       id: 1131,
                       menuName: "添加",
                       permissionValue: "btn.Permission.add",
                       descValue: "",
-                      type:"four"
+                      type: "four",
                     },
                     {
                       id: 1132,
                       menuName: "修改",
                       permissionValue: "btn.Permission.update",
                       descValue: "",
-                      type:"four"
+                      type: "four",
                     },
                     {
                       id: 1133,
                       menuName: "删除",
                       permissionValue: "btn.Permission.remove",
                       descValue: "",
-                      type:"four"
+                      type: "four",
                     },
                   ],
                 },
@@ -234,13 +240,14 @@ export default {
                   menuName: "登录管理",
                   permissionValue: "Test1",
                   descValue: "",
+                  type: "three",
                   children: [
                     {
                       id: 1141,
                       menuName: "角色管理",
                       permissionValue: "Test1",
                       descValue: "6666",
-                      type:"four"
+                      type: "four",
                     },
                   ],
                 },
@@ -251,20 +258,21 @@ export default {
               menuName: "商品管理",
               permissionValue: "Product",
               descValue: "",
+              type: "two",
               children: [
                 {
                   id: 121,
                   menuName: "SPU管理",
                   permissionValue: "Spu",
                   descValue: "",
-                  type:"four"
+                  type: "three",
                 },
                 {
                   id: 122,
                   menuName: "Sku管理",
                   permissionValue: "Sku",
                   descValue: "",
-                  type:"four"
+                  type: "three",
                 },
               ],
             },
@@ -273,26 +281,28 @@ export default {
               menuName: "订单管理",
               permissionValue: "Order",
               descValue: "",
+              type: "two",
               children: [
                 {
                   id: 131,
                   menuName: "订单列表",
                   permissionValue: "OrderList",
                   descValue: "",
+                  type: "three",
                   children: [
                     {
                       id: 1311,
                       menuName: "查看订单详情",
                       permissionValue: "btn.OrderList.detail",
                       descValue: "OrderShow",
-                      type:"four"
+                      type: "four",
                     },
                     {
                       id: 1312,
                       menuName: "退款",
                       permissionValue: "btn.OrderList.Refund",
                       descValue: "Refund",
-                      type:"four"
+                      type: "four",
                     },
                   ],
                 },
@@ -308,8 +318,8 @@ export default {
       ruleForm: {
         name: "",
         funcPerValue: "",
-        currentMenuName:"",
-        currentFuncPerValue:""
+        currentMenuName: "",
+        currentFuncPerValue: "",
       },
       rules: {
         name: [
@@ -320,10 +330,13 @@ export default {
           { required: true, message: "功能权限值不能为空！", trigger: "blur" },
         ],
       },
-      currentId:"",
+      currentId: "",
       currentMenuName: "",
       currentFuncPerValue: "",
-      titleName:""
+      titleName: "",
+      currentType:"one",
+      currentPermission:""
+
     };
   },
   mounted() {
@@ -331,66 +344,104 @@ export default {
   },
   methods: {
     //   添加菜单时，判断标题
-    changeTitle(type){
-        this.addVisible = true
-        if(type == "one"){
-            this.titleName = "添加一级菜单"
-        }else if(type == "two"){
-            this.titleName = "添加二级菜单"
-        }else if(type == "three"){
-            this.titleName = "添加三级菜单"
-        }
-        
+    changeTitle(type,permission) {
+      this.addVisible = true
+      this.currentType = type
+      this.currentPermission = permission
+      if (type == "one") {
+        this.titleName = "添加一级菜单";
+      } else if (type == "two") {
+        this.titleName = "添加二级菜单";
+      } else if (type == "three") {
+        this.titleName = "添加三级菜单";
+      }
     },
     //   添加菜单
     addMenu() {
-        // console.log(val)
-      let newId = this.tableData[0]['children'].length + 11;
+      
+      let newId = 0
+      switch(this.currentType){
+        case "one":
+          newId = this.tableData[0]["children"].length + 11;
+          break; 
+        case "two":
+          newId = this.tableData[0]["children"][0]["children"].length + 111;
+          break; 
+        case "three":
+          newId = this.tableData[0]["children"][0]["children"][0]["children"].length + 1111;
+          break; 
+      }
+        
       let newMenu = {
         id: newId,
+        type:this.currentType,
         menuName: this.ruleForm.name,
         permissionValue: this.ruleForm.funcPerValue,
         descValue: "",
-        children:[]
+        children: [],
       };
       this.addVisible = false;
+      let currentIndex = 0
+      switch(this.currentType){
+        case "one":
+          this.tableData[0]["children"].push(newMenu);
+          break; 
+        case "two":
+          this.tableData[0]["children"].forEach( (item,index) => {
+            // 满足
+            if( item.permissionValue == this.currentPermission){
+              currentIndex = index
+            }
+          })
+          this.tableData[0]["children"][currentIndex]["children"].push(newMenu);
+          break; 
+        case "three":
+          this.tableData[0]["children"][0]["children"].forEach( (item,index) => {
+            // 满足
+            if( item.permissionValue == this.currentPermission){
+              currentIndex = index
+            }
+          })
+          this.tableData[0]["children"][0]["children"][currentIndex]["children"].push(newMenu);
+          break; 
+      }
       
-      //   console.log(newMenu)
-      this.tableData[0]['children'].push(newMenu);
       this.tableDataList = JSON.parse(JSON.stringify(this.tableData));
     },
-    updateMenu(id,menuName, permissionValue) {
+    updateMenu(id, menuName, permissionValue) {
       // 记录当前正在操作行的id
-      this.currentId = id
+      this.currentId = id;
       // 获取当前编辑行的名字跟权限，分别赋值给currentMenuName、currentFuncPerValue
       this.ruleForm.currentMenuName = menuName;
       this.ruleForm.currentFuncPerValue = permissionValue;
       this.updateVisible = true;
       // console.log(a, b);
     },
-    updateSecondaryMenu(){   // 编辑二级菜单弹窗确定按钮
+    updateSecondaryMenu() {
+      // 编辑二级菜单弹窗确定按钮
       // 需要知道修改的是哪一条数据，即匹配记录下的this.currentId
-      this.tableData[0].children.forEach(item=>{
-          // 遍历表格，找到当前更新的行，重新赋值
-          if(item.id == this.currentId){
-            item.menuName = this.ruleForm.currentMenuName;
-            item.permissionValue = this.ruleForm.currentFuncPerValue;
-          }
-      })
+      this.tableData[0].children.forEach((item) => {
+        // 遍历表格，找到当前更新的行，重新赋值
+        if (item.id == this.currentId) {
+          item.menuName = this.ruleForm.currentMenuName;
+          item.permissionValue = this.ruleForm.currentFuncPerValue;
+        }
+      });
       this.updateVisible = false;
     },
-    deleteSecondaryMenu(){   // 删除二级菜单弹窗确定按钮
+    deleteSecondaryMenu() {
+      // 删除二级菜单弹窗确定按钮
       // 需要知道删除的是哪一条数据，即匹配记录下的this.currentId
-      let newTableData = []
-      this.tableData[0].children.forEach(item=>{
-          // 遍历表格，找到当前删除的行，过滤出去
-          if(item.id != this.currentId){
-            // 得到新的二级菜单
-            newTableData.push(item)
-          }
-      })
+      let newTableData = [];
+      this.tableData[0].children.forEach((item) => {
+        // 遍历表格，找到当前删除的行，过滤出去
+        if (item.id != this.currentId) {
+          // 得到新的二级菜单
+          newTableData.push(item);
+        }
+      });
       // 赋值新的二级菜单
-      this.tableData[0].children = JSON.parse(JSON.stringify(newTableData))
+      this.tableData[0].children = JSON.parse(JSON.stringify(newTableData));
       this.delVisible = false;
     },
     handleClose(done) {
@@ -401,7 +452,7 @@ export default {
         .catch(() => {});
     },
     delMenu(id) {
-      this.currentId = id
+      this.currentId = id;
       this.delVisible = true;
     },
   },
@@ -413,6 +464,6 @@ export default {
   margin-left: 10px;
 }
 .el-icon-warning {
-    color: orange;
+  color: orange;
 }
 </style>
