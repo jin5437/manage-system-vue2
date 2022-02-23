@@ -46,14 +46,31 @@
     >
       <el-table-column type="selection"> </el-table-column>
       <el-table-column prop="roleId" label="序号"> </el-table-column>
-      <el-table-column prop="roleName" label="角色名称"> </el-table-column>
+      <el-table-column prop="roleName" label="角色名称"> 
+        <template slot-scope="data" >
+          <span v-show="!data.row.isEditState">{{data.row.editValue}}</span>
+          <div class="slot-edit-role" v-show="data.row.isEditState">
+            <el-input v-model="data.row.editValue"></el-input>
+            <el-button class="btn-content" type="warning" @click="cancelBtn(data.row)">
+              <i class="el-icon-refresh"></i>
+              取消
+            </el-button>
+          </div>
+          
+        </template>
+        
+      </el-table-column>
       <el-table-column label="操作" show-overflow-tooltip>
         <template slot-scope="data">
           <el-button type="info">
             <i class="el-icon-info"></i>
           </el-button>
-          <el-button type="primary" @click="editRole(data.row.roleName)">
+          
+          <el-button v-show="!data.row.isEditState" type="primary" @click="editRole(data.row)">
             <i class="el-icon-edit"></i>
+          </el-button>
+          <el-button v-show="data.row.isEditState" type="primary" @click="data.row.isEditState = false">
+            <i class="el-icon-check"></i>
           </el-button>
           <el-popconfirm
             title="这是一段内容确定删除吗？"
@@ -120,10 +137,17 @@ export default {
       multipleSelectList: [],
       currentPage: 1,
       perPageNum: 5,
+      isEditState:false
     };
   },
   mounted() {
+    // 给原始数据的每一个对象增加一个表示是否处于编辑状态的变量，默认是false：不处于编辑状态
+    this.tableData.forEach((item) => {
+      item.isEditState = false
+      item.editValue = item.roleName
+    })
     this.tableDataList = JSON.parse(JSON.stringify(this.tableData));
+
     this.tableDataList = this.tableData.slice(
       (this.currentPage - 1) * this.perPageNum,
       this.currentPage * this.perPageNum
@@ -182,9 +206,24 @@ export default {
       this.tableDataList = newList;
       this.tableData = newList;
     },
-    // 编辑角色 todo
-    editRole(roleName) {
-      console.log(roleName);
+    // 编辑角色 
+    editRole(row) {
+      // tableDataList本身不具有isEditState这个属性，使用.xxx的方式赋值时，不具有响应性，只能通过中间变量newRoleList添加isEditState这个属性，
+      // 所以将它深拷贝给中间变量newRoleList
+      let newRoleList = JSON.parse(JSON.stringify(this.tableDataList));
+      newRoleList.forEach((item) => {
+        // 判断每一行数据，即newRoleList每一个对象是否处于编辑状态
+        if(item.roleId == row.roleId){
+          item.isEditState = true
+        }
+      })
+      this.tableDataList = JSON.parse(JSON.stringify(newRoleList));
+    },
+
+    // 取消编辑角色
+    cancelBtn(row){
+      row.isEditState = false 
+      row.editValue = row.roleName
     },
 
     // 删除角色:删除当前行的数据
@@ -237,6 +276,7 @@ export default {
         this.currentPage * this.perPageNum
       );
     },
+    
   },
 };
 </script>
@@ -254,5 +294,12 @@ export default {
 .add-role {
   margin-left: 20px;
   width: 90px;
+}
+.slot-edit-role{
+  display: flex;
+  flex: 1;
+}
+.btn-content{
+  margin-left: 10px;
 }
 </style>

@@ -405,7 +405,9 @@ export default {
           this.tableData[0]["children"][0]["children"][currentIndex]["children"].push(newMenu);
           break; 
       }
-      
+      this.ruleForm.name = '';
+      this.ruleForm.funcPerValue = '';
+
       this.tableDataList = JSON.parse(JSON.stringify(this.tableData));
     },
     updateMenu(id, menuName, permissionValue) {
