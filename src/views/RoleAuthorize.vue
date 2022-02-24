@@ -1,0 +1,118 @@
+<template>
+  <div>
+    <el-tree
+      :data="data"
+      show-checkbox
+      node-key="id"
+      :default-expanded-keys="[2, 3]"
+      :default-checked-keys="[5]"
+      :props="defaultProps">
+    </el-tree>
+  </div>
+</template>
+
+<script>
+export default {
+  name:'RoleAuthorize',
+  data() {
+    return {
+      data:[
+        {
+          id:1,
+          label:'全部数据',
+          children:[
+            {
+              id:11,
+              label:'权限管理',
+              children:[
+                {
+                  id:111,
+                  label:'用户管理',
+                  children:[
+                    {
+                      id:1111,
+                      label:'添加用户',
+                    },
+                    {
+                      id:1112,
+                      label:'删除用户',
+                    },
+                    {
+                      id:1113,
+                      label:'修改用户',
+                    },
+                    {
+                      id:1114,
+                      label:'分配角色',
+                    },
+                    {
+                      id:1115,
+                      label:'修改密码',
+                    },
+                  ]
+                },
+                {
+                  id:112,
+                  label:'角色管理',
+                  children:[
+                    {
+                      id:1121,
+                      label:'分配权限',
+                    },
+                    {
+                      id:1122,
+                      label:'添加角色',
+                    },
+                    {
+                      id:1123,
+                      label:'修改角色',
+                    },
+                    {
+                      id:1124,
+                      label:'删除角色',
+                    },
+                    {
+                      id:1125,
+                      label:'批量删除',
+                    },
+                  ]
+                },
+                {
+                  id:113,
+                  label:'角色管理',
+                  children:[
+                    {
+                      id:1131,
+                      label:'删除',
+                    },
+                    {
+                      id:1132,
+                      label:'添加',
+                    },
+                    {
+                      id:1133,
+                      label:'修改',
+                    },
+                  ]
+                },
+              ]
+            },
+            {
+              id:12,
+              label:'商品管理',
+            },
+            {
+              id:13,
+              label:'订单管理',
+            },
+          ]
+        }
+      ]
+    }
+  },
+}
+</script>
+
+<style>
+
+</style>

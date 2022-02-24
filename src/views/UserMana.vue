@@ -56,27 +56,30 @@
       border
       tooltip-effect="dark"
       style="width: 100%"
+      header-align="center"
       @selection-change="handleSelectionChange"
     >
     
       <el-table-column type="selection"> </el-table-column>
-      <el-table-column prop="userId" label="序号"> </el-table-column>
-      <el-table-column prop="userName" label="用户名"> </el-table-column>
+      <el-table-column prop="userId" label="序号" align="center" width="100px"> </el-table-column>
+      <el-table-column prop="userName" label="用户名" align="center" > </el-table-column>
       <el-table-column
         prop="userNickName"
         label="用户昵称"
+        align="center"
         show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
         prop="permissionList"
         label="权限列表"
+        align="center"
         show-overflow-tooltip
       >
       </el-table-column>
-      <el-table-column prop="createDate" label="创建日期"> </el-table-column>
-      <el-table-column prop="upDate" label="更新日期"> </el-table-column>
-      <el-table-column prop="operations" label="操作">
+      <el-table-column prop="createDate" label="创建日期" align="center"> </el-table-column>
+      <el-table-column prop="upDate" label="更新日期" align="center"> </el-table-column>
+      <el-table-column prop="operations" label="操作" align="center">
         <template slot-scope="data">
           <el-button
             class="opera"

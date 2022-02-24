@@ -1,6 +1,5 @@
 <template>
   <div>
-    
     <el-input
       class="input-role"
       v-model="inputRoleName"
@@ -42,44 +41,57 @@
       border
       tooltip-effect="dark"
       style="width: 100%"
+      
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection"> </el-table-column>
-      <el-table-column prop="roleId" label="序号"> </el-table-column>
-      <el-table-column prop="roleName" label="角色名称"> 
-        <template slot-scope="data" >
-          <span v-show="!data.row.isEditState">{{data.row.editValue}}</span>
+      <el-table-column type="index" align="center" label="序号" width="100px"> </el-table-column>
+      <el-table-column prop="roleId" align="center" label="角色ID"> </el-table-column>
+      <el-table-column prop="roleName" align="center" label="角色名称">
+        <template slot-scope="data">
+          <span v-show="!data.row.isEditState">{{ data.row.editValue }}</span>
           <div class="slot-edit-role" v-show="data.row.isEditState">
             <el-input v-model="data.row.editValue"></el-input>
-            <el-button class="btn-content" type="warning" @click="cancelBtn(data.row)">
+            <el-button
+              class="btn-content"
+              type="warning"
+              @click="cancelBtn(data.row)"
+            >
               <i class="el-icon-refresh"></i>
               取消
             </el-button>
           </div>
-          
         </template>
-        
       </el-table-column>
-      <el-table-column label="操作" show-overflow-tooltip>
+      <el-table-column label="操作" align="center" show-overflow-tooltip>
         <template slot-scope="data">
+          
           <el-button type="info">
             <i class="el-icon-info"></i>
           </el-button>
-          
-          <el-button v-show="!data.row.isEditState" type="primary" @click="editRole(data.row)">
+          <el-button
+            v-show="!data.row.isEditState"
+            type="primary"
+            @click="editRole(data.row)"
+          >
             <i class="el-icon-edit"></i>
           </el-button>
-          <el-button v-show="data.row.isEditState" type="primary" @click="data.row.isEditState = false">
+          <el-button
+            v-show="data.row.isEditState"
+            type="primary"
+            @click="checkRole(data.row)"
+          >
             <i class="el-icon-check"></i>
           </el-button>
           <el-popconfirm
             title="这是一段内容确定删除吗？"
             @confirm="delRole(data.row.roleId)"
           >
-            <el-button type="danger" slot="reference">
+            <el-button class="delete-btn" type="danger" slot="reference">
               <i class="el-icon-delete"></i>
             </el-button>
           </el-popconfirm>
+          
         </template>
       </el-table-column>
     </el-table>
@@ -137,15 +149,15 @@ export default {
       multipleSelectList: [],
       currentPage: 1,
       perPageNum: 5,
-      isEditState:false
+      isEditState: false,
     };
   },
   mounted() {
     // 给原始数据的每一个对象增加一个表示是否处于编辑状态的变量，默认是false：不处于编辑状态
     this.tableData.forEach((item) => {
-      item.isEditState = false
-      item.editValue = item.roleName
-    })
+      item.isEditState = false;
+      item.editValue = item.roleName;
+    });
     this.tableDataList = JSON.parse(JSON.stringify(this.tableData));
 
     this.tableDataList = this.tableData.slice(
@@ -175,17 +187,22 @@ export default {
     // 添加角色
     addRole() {
       this.addRoleVisible = false;
+      // roleId的计算方式有问题？
       this.roleId = this.tableData.length + 1;
       let newRole = {
         roleId: this.roleId,
         roleName: this.newRoleName,
+        isEditState:false,
+        editValue:this.newRoleName,
       };
       this.tableDataList.push(newRole);
       this.tableData.push(newRole);
+      // 对新的表格数据tableData，进行重新分页
       this.tableDataList = this.tableData.slice(
         (this.currentPage - 1) * this.perPageNum,
         this.currentPage * this.perPageNum
       );
+
       this.newRoleName = "";
     },
 
@@ -206,39 +223,56 @@ export default {
       this.tableDataList = newList;
       this.tableData = newList;
     },
-    // 编辑角色 
+    // 编辑角色
     editRole(row) {
       // tableDataList本身不具有isEditState这个属性，使用.xxx的方式赋值时，不具有响应性，只能通过中间变量newRoleList添加isEditState这个属性，
       // 所以将它深拷贝给中间变量newRoleList
       let newRoleList = JSON.parse(JSON.stringify(this.tableDataList));
       newRoleList.forEach((item) => {
         // 判断每一行数据，即newRoleList每一个对象是否处于编辑状态
-        if(item.roleId == row.roleId){
-          item.isEditState = true
+        if (item.roleId == row.roleId) {
+          item.isEditState = true;
         }
-      })
+      });
       this.tableDataList = JSON.parse(JSON.stringify(newRoleList));
     },
 
     // 取消编辑角色
-    cancelBtn(row){
-      row.isEditState = false 
-      row.editValue = row.roleName
+    cancelBtn(row) {
+      row.isEditState = false;
+      row.editValue = row.roleName;
+    },
+
+    // 确认编辑角色
+    checkRole(row) {
+      row.isEditState = false;
+      row.roleName = row.editValue;
+      // console.log('checkRole-roleName:',row.roleName)
+      // console.log('checkRole-editValue:',row.editValue)
     },
 
     // 删除角色:删除当前行的数据
     delRole(roleId) {
-      console.log(roleId);
       let list = [];
       // this.tableDataList.forEach(item => {
       //     if(item.roleId != roleId){
       //         list.push(item)
       //     }
       // })
-      list = this.tableDataList.filter((item) => {
+      // list = this.tableDataList.filter((item) => {
+      //   return item.roleId != roleId;
+      // });
+
+      list = this.tableData.filter((item) => {
         return item.roleId != roleId;
       });
-      this.tableDataList = list;
+      this.tableData = list;
+
+      // 对新的表格数据tableData，进行重新分页
+      this.tableDataList = this.tableData.slice(
+        (this.currentPage - 1) * this.perPageNum,
+        this.currentPage * this.perPageNum
+      );
     },
 
     // 获取多选框中，选中的数据，存储在列表中，如果选中，则批量删除按钮可以点击
@@ -276,7 +310,6 @@ export default {
         this.currentPage * this.perPageNum
       );
     },
-    
   },
 };
 </script>
@@ -295,11 +328,14 @@ export default {
   margin-left: 20px;
   width: 90px;
 }
-.slot-edit-role{
+.slot-edit-role {
   display: flex;
   flex: 1;
 }
-.btn-content{
+.btn-content {
+  margin-left: 10px;
+}
+.delete-btn {
   margin-left: 10px;
 }
 </style>

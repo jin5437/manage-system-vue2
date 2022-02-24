@@ -32,7 +32,15 @@ const router = new VueRouter({
       name:'RoleMana',
       path:'/RoleMana',
       component:() => import('../views/RoleMana'),
-      meta:{title:'角色管理'}
+      meta:{title:'角色管理'},
+      children:[
+        {
+          name:'RoleAuthorize',
+          path:'/RoleMana/RoleAuthorize',
+          component:() => import('../views/RoleAuthorize'),
+          meta:{title:'角色授权'},
+        }
+      ]
     },
     {
       name:'MenuMana',
