@@ -122,24 +122,32 @@ export default {
       tableData: [
         {
           roleId: "1",
-          roleName: "string1",
+          roleName: "董事长",
         },
         {
           roleId: "2",
-          roleName: "string2",
+          roleName: "总经理",
         },
         {
           roleId: "3",
-          roleName: "string3",
+          roleName: "项目经理",
         },
         {
           roleId: "4",
-          roleName: "string4",
+          roleName: "技术组长",
         },
         {
           roleId: "5",
-          roleName: "string5",
+          roleName: "研发人员",
         },
+        {
+          roleId: "6",
+          roleName: "外包人员",
+        },
+        {
+          roleId: "7",
+          roleName: "普通用户",
+        }
       ],
       tableDataList: [],
       rolePermissVisible: false,
