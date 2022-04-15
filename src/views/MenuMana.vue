@@ -346,14 +346,14 @@ export default {
     //   添加菜单时，判断标题
     changeTitle(type,permission) {
       this.addVisible = true
-      this.currentType = type
+      this.currentType = type 
       this.currentPermission = permission
       if (type == "one") {
-        this.titleName = "添加一级菜单";
-      } else if (type == "two") {
         this.titleName = "添加二级菜单";
-      } else if (type == "three") {
+      } else if (type == "two") {
         this.titleName = "添加三级菜单";
+      } else if (type == "three") {
+        this.titleName = "添加四级菜单";
       }
     },
     //   添加菜单
