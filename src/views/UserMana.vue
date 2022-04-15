@@ -390,16 +390,28 @@ export default {
     addUser() {
       this.addVisible = false;
       this.userId = this.tableData.length + 1;
-      // console.log(this.userId)
+      
       let newUser = {
         userId: this.userId,
         userName: this.addInputName,
         userNickName: this.addInputNickName,
       };
-      // console.log(newUser);
+      
       this.tableDataList.push(newUser);
       this.tableData.push(newUser);
-      // console.log(this.tableDataList)
+      
+      /* 
+        分页的注意事项：
+          - 1.本项目中，是模拟的数据
+              点击新增按钮吗，新增用户之后，在addUser()中，再执行一次分页操作
+          - 2.如果是在实际业务场景中，
+              - 用户在页面点击新增按钮，输入数据，
+              - 前端带着数据，向后端的接口发请求，如this.$axios.get(url).then( res => {})
+              - 后端将数据插入数据库，返回响应
+              - 前端再调一次查询接口，获取响应体中的数据，显示最新数据在页面上
+
+        动态数据永远都是发请求，或者说是调接口而得来的，不是自己就会刷新的
+       */
       this.tableDataList = this.tableData.slice(
         (this.currentPage - 1) * this.pageData,
         this.currentPage * this.pageData
